@@ -35,9 +35,10 @@
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
 
+    /* 이미지를 자르지 않고 전체가 보이도록 설정 */
     img {
-      object-fit: cover;
-      background-color: #f3f4f6;
+      object-fit: contain;
+      background-color: white;
     }
 
     @keyframes fadeIn {
@@ -57,25 +58,28 @@
 
   <main class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 md:p-12 text-center overflow-hidden">
 
-    <!-- 시작 페이지 -->
+    <!-- 1. 시작 페이지 -->
     <section id="start-page" class="page active">
       <h1 class="text-5xl md:text-7xl font-black text-blue-700">
         IB 히어로가 되어보자!
       </h1>
+
       <h2 class="text-2xl md:text-4xl text-gray-600 mt-4 font-semibold">
         나는 어떤 히어로?
       </h2>
+
       <p class="text-lg text-gray-500 mt-6 max-w-2xl mx-auto">
         10개의 간단한 질문에 답하고,
         <br>당신 마음속에 숨어 있는 진짜 히어로를 만나보세요!
       </p>
+
       <button onclick="startQuiz()"
         class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-4 px-10 rounded-full shadow-lg transform hover:scale-105 transition-transform mt-12">
         테스트 시작! ⚡
       </button>
     </section>
 
-    <!-- 퀴즈 페이지 -->
+    <!-- 2. 퀴즈 페이지 -->
     <section id="quiz-page" class="page">
       <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
         <div id="progress-bar"
@@ -88,15 +92,18 @@
       <div id="question-area"></div>
     </section>
 
-    <!-- 결과 페이지 -->
+    <!-- 3. 결과 페이지 -->
     <section id="result-page" class="page">
       <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
         당신의 IB 히어로는...
       </h2>
 
       <div class="bg-gradient-to-br from-yellow-100 to-orange-200 rounded-lg p-6 md:p-8 shadow-inner border-2 border-yellow-400">
-        <img id="hero-image" src="" alt="대표 히어로 이미지"
+        <img id="hero-image"
+          src=""
+          alt="대표 히어로 이미지"
           class="w-48 h-48 rounded-full mx-auto border-4 border-white shadow-lg mb-4">
+
         <h3 id="hero-title" class="text-3xl font-bold text-yellow-900"></h3>
         <p id="hero-name" class="text-2xl text-yellow-700 font-bold mb-3"></p>
         <p id="hero-description" class="text-lg text-gray-700 leading-relaxed"></p>
@@ -106,6 +113,7 @@
         <h3 class="text-2xl font-bold text-gray-800 mb-4">
           🌱 이런 힘도 키워보면 어떨까요?
         </h3>
+
         <div id="growth-heroes" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       </div>
 
@@ -118,7 +126,7 @@
   </main>
 
   <script>
-    // 히어로 정보와 저장한 이미지 파일 경로
+    // 히어로 정보와 images 폴더에 저장한 이미지 파일 경로
     const profileData = {
       inquirer: {
         title: "탐구하는 사람 (Inquirers)",
@@ -126,54 +134,63 @@
         image: "images/모아나.png",
         description: "당신은 호기심이 많고, '왜?'라는 질문을 멈추지 않아요. 산호초 너머의 세상을 탐험하는 것을 두려워하지 않죠! 스스로 항해술을 연구하고 새로운 길을 개척하는 당신은 멋진 탐험가입니다."
       },
+
       knowledgeable: {
         title: "지식이 풍부한 사람 (Knowledgeable)",
         hero: "토니 스타크(아이언맨)",
         image: "images/아이언맨.png",
         description: "당신은 과학, 공학 등 세상의 모든 지식을 사랑해요. 그 지식으로 멋진 슈트를 만들어 세상을 구하죠! 끊임없이 새로운 지식을 탐구하고, 그것을 사용해 실제 문제를 해결하는 천재 발명가입니다."
       },
+
       thinker: {
         title: "생각하는 사람 (Thinkers)",
         hero: "주디 홉스",
         image: "images/주디홉스.png",
         description: "당신은 복잡한 문제가 생겨도 포기하지 않아요. 논리적인 단서 분석과 창의적인 생각으로 사건을 해결해내는 명탐정입니다."
       },
+
       communicator: {
         title: "의사소통을 잘하는 사람 (Communicators)",
         hero: "조이",
         image: "images/조이.jpg",
         description: "당신은 자신의 생각과 감정을 잘 표현하고 다른 사람들과 협력해요. 당신의 밝은 에너지와 표현력은 주변 사람들에게 힘을 주는 멋진 능력입니다."
       },
+
       principled: {
         title: "원칙을 지키는 사람 (Principled)",
         hero: "우디",
         image: "images/우디.png",
         description: "당신은 정직하고 공정한 것을 중요하게 생각해요. 어떤 위기 상황에서도 친구들을 버리지 않고, 옳은 일을 하려는 강한 신념을 가졌습니다."
       },
+
       open_minded: {
         title: "열린 마음을 가진 사람 (Open-minded)",
         hero: "스폰지밥",
         image: "images/스폰지밥.jpg",
         description: "당신은 친구들을 편견 없이 받아들여요. 새로운 경험을 즐겁게 배우고 다양한 생각을 존중하는 열린 마음의 소유자입니다."
       },
+
       caring: {
         title: "배려하는 사람 (Caring)",
         hero: "안나",
         image: "images/안나.png",
         description: "당신은 다른 사람의 감정에 깊이 공감하고, 따뜻한 마음으로 모두를 돕는 진정한 용기를 가졌습니다."
       },
+
       risk_taker: {
         title: "도전하는 사람 (Risk-takers)",
         hero: "루미",
         image: "images/루미.png",
         description: "당신은 불확실하고 어려운 상황에도 용감하게 맞서요. 실패를 두려워하지 않고 모두를 지키기 위해 새로운 일에 도전하는 용기 있는 히어로입니다."
       },
+
       balanced: {
         title: "균형 잡힌 사람 (Balanced)",
         hero: "뽀로로",
         image: "images/뽀로로.png",
         description: "당신은 친구들과 신나게 놀고 몸과 마음을 돌보면서 새로운 것도 배워요. 즐겁게 노는 것과 똑똑하게 배우는 것의 균형을 아는 멋진 친구입니다!"
       },
+
       reflective: {
         title: "성찰하는 사람 (Reflective)",
         hero: "엘사",
@@ -182,7 +199,7 @@
       }
     };
 
-    // 질문과 선택지
+    // 질문 10개
     const questions = [
       {
         situation: "낯선 섬에 떨어졌다!",
@@ -263,12 +280,17 @@
       document.querySelectorAll(".page").forEach(page => {
         page.classList.remove("active");
       });
+
       document.getElementById(pageId).classList.add("active");
     }
 
     function startQuiz() {
       scores = {};
-      Object.keys(profileData).forEach(key => scores[key] = 0);
+
+      Object.keys(profileData).forEach(key => {
+        scores[key] = 0;
+      });
+
       currentQuestion = 0;
       showPage("quiz-page");
       showQuestion();
@@ -281,25 +303,29 @@
       }
 
       const question = questions[currentQuestion];
+
       document.getElementById("question-counter").textContent =
         `질문 ${currentQuestion + 1} / ${questions.length}`;
 
       document.getElementById("progress-bar").style.width =
         `${((currentQuestion + 1) / questions.length) * 100}%`;
 
-      const choices = question.answers.map(([key, text]) => `
-        <button onclick="selectAnswer('${key}')"
+      const choices = question.answers.map(([profileKey, answerText]) => `
+        <button
+          onclick="selectAnswer('${profileKey}')"
           class="choice-btn p-6 bg-gray-50 hover:bg-blue-100 border-2 border-gray-200 hover:border-blue-400 rounded-lg shadow-md cursor-pointer">
-          <p class="text-lg md:text-xl text-gray-700">${text}</p>
+          <p class="text-lg md:text-xl text-gray-700">${answerText}</p>
         </button>
       `).join("");
 
       document.getElementById("question-area").innerHTML = `
-        <div class="question-slide active">
+        <div>
           <h3 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-10">
             [상황: ${question.situation}] 나는...
           </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${choices}</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            ${choices}
+          </div>
         </div>
       `;
     }
@@ -320,14 +346,21 @@
 
       document.getElementById("hero-image").src = mainHero.image;
       document.getElementById("hero-title").textContent = mainHero.title;
-      document.getElementById("hero-name").textContent = `"${mainHero.hero}" 타입!`;
-      document.getElementById("hero-description").textContent = mainHero.description;
+      document.getElementById("hero-name").textContent =
+        `"${mainHero.hero}" 타입!`;
+      document.getElementById("hero-description").textContent =
+        mainHero.description;
+
+      const growthHeroes = [growHero1, growHero2];
 
       document.getElementById("growth-heroes").innerHTML =
-        [growHero1, growHero2].map(hero => `
+        growthHeroes.map(hero => `
           <div class="bg-gray-100 p-4 rounded-lg flex items-center shadow-sm text-left">
-            <img src="${hero.image}" alt="${hero.hero}"
+            <img
+              src="${hero.image}"
+              alt="${hero.hero}"
               class="w-20 h-20 rounded-full border-2 border-white shadow-md flex-shrink-0">
+
             <div class="ml-4">
               <h4 class="text-lg font-bold text-blue-800">${hero.title}</h4>
               <p class="font-bold text-blue-600">${hero.hero}</p>
